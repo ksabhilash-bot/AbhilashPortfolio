@@ -1,0 +1,10 @@
+@import "tailwindcss";
+@font-face {
+  font-family: 'LetMeDown';
+  src: url('/src/assets/LetMeDownDemoRegular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+.font-letme {
+  font-family: 'LetMeDown', cursive;
+}
