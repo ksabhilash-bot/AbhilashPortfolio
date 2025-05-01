@@ -19,29 +19,21 @@ const But = () => {
     try {
       console.log("Starting resume download process");
       
-      // Since the server is returning HTML instead of PDF, let's try a direct approach
-      // that bypasses content-type issues
       
-      // Option 1: Try with import for Vite
       try {
-        // Dynamic import for the PDF file
+        
         import.meta.env.DEV && console.log("Trying import approach...");
         
-        // In Vite, we can use this pattern to import static assets
-        // This will properly handle the asset in both dev and prod
-        import('/src/assets/AbhilashKSResume.pdf')
+        import('/src/assets/AbhilashKSResume1.pdf')
           .then(module => {
             const pdfUrl = module.default || module;
             console.log("Successfully imported PDF from assets:", pdfUrl);
-            
-            // Create download link
             const link = document.createElement('a');
             link.href = pdfUrl;
-            link.download = 'AbhilashKSResume.pdf';
+            link.download = 'AbhilashKSResume1.pdf';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            
             console.log("Download initiated via import method");
           })
           .catch(importError => {
