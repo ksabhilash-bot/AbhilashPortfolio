@@ -5,7 +5,7 @@ import path from "path";
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: "/AbhilashPortfolio/", // Set base URL for GitHub Pages deployment
+  base: "/", // Set base URL for GitHub Pages deployment /AbhilashPortfolio/
   server: {
     host: "0.0.0.0",
     port: 5173, // Default Vite port
