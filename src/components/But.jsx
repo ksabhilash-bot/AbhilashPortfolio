@@ -1,10 +1,11 @@
-import React from 'react';
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
+import React from "react";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { Button } from "./ui/button";
 
 const But = () => {
   const butRef = useRef(null);
-  
+
   useEffect(() => {
     gsap.from(butRef.current, {
       opacity: 0,
@@ -18,35 +19,28 @@ const But = () => {
   const handleDownload = () => {
     try {
       console.log("Starting resume download process");
-      
-      
+
       try {
-        
         import.meta.env.DEV && console.log("Trying import approach...");
-        
-        import('/src/assets/AbhilashKSResume1.pdf')
-          .then(module => {
+
+        import("/src/assets/AbhilashKSResume1.pdf")
+          .then((module) => {
             const pdfUrl = module.default || module;
             console.log("Successfully imported PDF from assets:", pdfUrl);
-            const link = document.createElement('a');
+            const link = document.createElement("a");
             link.href = pdfUrl;
-            link.download = 'AbhilashKSResume1.pdf';
+            link.download = "AbhilashKSResume1.pdf";
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
             console.log("Download initiated via import method");
           })
-          .catch(importError => {
+          .catch((importError) => {
             console.error("Import failed:", importError);
-            
           });
       } catch (importError) {
         console.error("Import approach not supported:", importError);
-        
       }
-      
-      
-      
     } catch (error) {
       console.error("Overall error in download process:", error);
     }
@@ -54,9 +48,9 @@ const But = () => {
 
   return (
     <div className="mt-4" ref={butRef}>
-      <button
+      <Button
         onClick={handleDownload}
-        className="cursor-pointer flex justify-between bg-white px-3 py-2 rounded-full text-black tracking-wider shadow-xl hover:text-amber-50 hover:bg-gray-900 hover:scale-105 duration-500 hover:ring-1 font-mono w-[150px]"
+        className="cursor-pointer flex justify-around bg-white px-3 py-3 rounded-full text-black tracking-wider shadow-xl hover:text-amber-50 hover:bg-gray-900 hover:scale-105 duration-500 hover:ring-1 font-mono w-[150px]"
       >
         Resume
         <svg
@@ -73,7 +67,7 @@ const But = () => {
             d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3"
           />
         </svg>
-      </button>
+      </Button>
     </div>
   );
 };
