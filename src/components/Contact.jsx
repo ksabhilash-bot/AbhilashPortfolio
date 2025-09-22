@@ -467,14 +467,6 @@ const Contact = forwardRef(function Contact(props, ref) {
       bgColor: "bg-green-500/10",
       description: "Message on WhatsApp",
     },
-    {
-      icon: MapPin,
-      label: "Location",
-      value: "Panipat, Haryana, India",
-      color: "text-blue-400",
-      bgColor: "bg-blue-500/10",
-      description: "Based in India",
-    },
   ];
 
   const socialLinks = [
@@ -489,6 +481,7 @@ const Contact = forwardRef(function Contact(props, ref) {
       name: "LinkedIn",
       icon: Linkedin,
       href: "https://www.linkedin.com/in/abhilash-k-s-b801ab386",
+
       color: "hover:text-blue-400",
       description: "Connect professionally",
     },
@@ -522,7 +515,7 @@ const Contact = forwardRef(function Contact(props, ref) {
 
       {/* Content Overlay */}
       <div
-        className="relative z-10 min-h-screen py-20 px-6"
+        className="relative z-10 min-h-screen py-20 px-4 sm:px-6 md:px-8"
         style={{
           background:
             "linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.2), rgba(0,0,0,0.4))",
@@ -532,7 +525,7 @@ const Contact = forwardRef(function Contact(props, ref) {
           {/* Header */}
           <div
             ref={titleRef}
-            className="text-center mb-20 opacity-0 transform translate-y-8 transition-all duration-1000"
+            className="text-center mb-16 sm:mb-20 opacity-0 transform translate-y-8 transition-all duration-1000"
           >
             <Badge
               variant="outline"
@@ -541,33 +534,30 @@ const Contact = forwardRef(function Contact(props, ref) {
               <Sparkles className="w-4 h-4 mr-2" />
               Let's Connect
             </Badge>
-            <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white via-indigo-200 to-purple-200 bg-clip-text text-transparent">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white via-indigo-200 to-purple-200 bg-clip-text text-transparent">
               Get In <span className="text-indigo-400">Touch</span>
             </h2>
-            <p className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl text-slate-300 max-w-2xl sm:max-w-3xl mx-auto leading-relaxed">
               I'm always excited to collaborate on new projects and discuss
               innovative ideas. Let's create something amazing together!
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-1 gap-12 items-center ">
-            {/* Contact Form */}
-
-            {/* Contact Information */}
-            <div className="space-y-8">
+          <div className="grid lg:grid-cols-1 gap-12 items-center">
+            <div className="space-y-10 sm:space-y-12 w-full max-w-2xl mx-auto">
               {/* Contact Methods */}
               <div>
-                <h3 className="text-2xl font-bold text-white mb-6">
+                <h3 className="text-xl sm:text-2xl font-bold text-white mb-6 text-center sm:text-left">
                   Contact Information
                 </h3>
                 <div className="space-y-4">
                   {contactMethods.map((method, index) => (
                     <Card
                       key={index}
-                      className="bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300 backdrop-blur-lg shadow-lg"
+                      className="bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300 backdrop-blur-lg shadow-lg w-full"
                     >
-                      <CardContent className="p-6">
-                        <div className="flex items-center space-x-4">
+                      <CardContent className="p-5 sm:p-6">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0">
                           <div
                             className={`w-12 h-12 ${method.bgColor} rounded-xl flex items-center justify-center shadow-md backdrop-blur-sm`}
                           >
@@ -575,18 +565,18 @@ const Contact = forwardRef(function Contact(props, ref) {
                               className={`w-6 h-6 ${method.color}`}
                             />
                           </div>
-                          <div className="flex-1">
+                          <div className="flex-1 text-center sm:text-left">
                             <h4 className="text-white font-semibold">
                               {method.label}
                             </h4>
                             <p className="text-slate-300 text-sm">
                               {method.description}
                             </p>
-                            <p className="text-slate-200 font-mono text-sm">
+                            <p className="text-slate-200 font-mono text-sm break-all">
                               {method.value}
                             </p>
                           </div>
-                          <div className="flex gap-2">
+                          <div className="flex gap-2 justify-center sm:justify-end">
                             {method.label === "Email" && (
                               <Button
                                 variant="ghost"
@@ -628,14 +618,14 @@ const Contact = forwardRef(function Contact(props, ref) {
 
               {/* Social Links */}
               <div>
-                <h3 className="text-2xl font-bold text-white mb-6">
+                <h3 className="text-xl sm:text-2xl font-bold text-white mb-6 text-center sm:text-left">
                   Connect With Me
                 </h3>
                 <div className="grid sm:grid-cols-2 gap-4">
                   {socialLinks.map((social, index) => (
                     <Card
                       key={index}
-                      className="bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300 backdrop-blur-lg"
+                      className="bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300 backdrop-blur-lg w-full"
                     >
                       <CardContent className="p-4">
                         <a
@@ -662,9 +652,9 @@ const Contact = forwardRef(function Contact(props, ref) {
               </div>
 
               {/* Call to Action */}
-              <Card className="bg-gradient-to-r from-indigo-600/20 to-purple-600/20 border-indigo-400/30 backdrop-blur-lg">
+              <Card className="bg-gradient-to-r from-indigo-600/20 to-purple-600/20 border-indigo-400/30 backdrop-blur-lg w-full">
                 <CardContent className="p-6 text-center">
-                  <h4 className="text-xl font-bold text-white mb-2">
+                  <h4 className="text-lg sm:text-xl font-bold text-white mb-2">
                     Ready to Start?
                   </h4>
                   <p className="text-indigo-200 text-sm mb-4">
