@@ -17,9 +17,6 @@ import { Separator } from "@/components/ui/separator";
 import {
   Mail,
   Phone,
-  MapPin,
-  Send,
-  CheckCircle,
   Github,
   Instagram,
   MessageCircle,
@@ -474,7 +471,7 @@ const Contact = forwardRef(function Contact(props, ref) {
       name: "GitHub",
       icon: Github,
       href: "https://github.com/ksabhilash-bot",
-      color: "hover:text-gray-300",
+      color: "text-gray-300",
       description: "View my repositories",
     },
     {
@@ -482,21 +479,21 @@ const Contact = forwardRef(function Contact(props, ref) {
       icon: Linkedin,
       href: "https://www.linkedin.com/in/abhilash-k-s-b801ab386",
 
-      color: "hover:text-blue-400",
+      color: "text-blue-400",
       description: "Connect professionally",
     },
     {
       name: "Instagram",
       icon: Instagram,
       href: "https://instagram.com/abhiiiii_lash",
-      color: "hover:text-pink-400",
+      color: "text-pink-400",
       description: "Follow my journey",
     },
     {
       name: "WhatsApp",
       icon: MessageCircle,
       href: "https://wa.me/+919991066996",
-      color: "hover:text-green-400",
+      color: "text-green-400",
       description: "Direct message",
     },
   ];
