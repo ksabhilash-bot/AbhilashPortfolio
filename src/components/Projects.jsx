@@ -1,6 +1,5 @@
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 
 // Import your project images
 import project1 from "../assets/project1.png";
@@ -9,12 +8,10 @@ import project3 from "../assets/project3.png";
 import nameforge from "../../public/nameforge.png";
 import hostelfinder from "../../public/hostelfinder.png";
 
-gsap.registerPlugin(ScrollTrigger);
-
 const Projects = () => {
   const sectionRef = useRef(null);
   const titleRef = useRef(null);
-  const projectRefs = useRef([]);
+  const isSectionInView = useInView(sectionRef, { once: true, amount: 0.2 });
 
   // Sample project data
   const projects = [
@@ -67,7 +64,7 @@ const Projects = () => {
       title: "Portfolio",
       description:
         "A modern, responsive portfolio website with smooth animations and interactive elements.",
-      technologies: ["HTML", "React JS", "Gsap", "Tailwindcss"],
+      technologies: ["HTML", "React JS", "Framer Motion", "Tailwindcss"],
       image: project1,
       link: "https://its-saran02.github.io/UiUx/",
       accentColor: "from-amber-500 to-orange-600",
@@ -101,35 +98,25 @@ const Projects = () => {
     },
   ];
 
-  useEffect(() => {
-    // Animate title when section comes into view
-    gsap.from(titleRef.current, {
-      opacity: 0,
-      y: -50,
-      duration: 1,
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: "top 80%",
-        toggleActions: "play none none none",
-      },
-    });
+  // Animation variants for title
+  const titleVariants = {
+    hidden: { opacity: 0, y: -50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: "easeOut" },
+    },
+  };
 
-    // Animate each project card as it comes into view
-    projectRefs.current.forEach((project, index) => {
-      gsap.from(project, {
-        opacity: 0,
-        y: 80,
-        duration: 1,
-        delay: index * 0.2,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: project,
-          start: "top 85%",
-          toggleActions: "play none none none",
-        },
-      });
-    });
-  }, []);
+  // Animation variants for project cards
+  const cardVariants = {
+    hidden: { opacity: 0, y: 80 },
+    visible: (index) => ({
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: "easeOut", delay: index * 0.2 },
+    }),
+  };
 
   return (
     <section
@@ -137,12 +124,15 @@ const Projects = () => {
       className="min-h-screen bg-gradient-to-b from-gray-900 to-indigo-900 text-white py-20 px-6"
     >
       <div className="max-w-7xl mx-auto">
-        <h2
+        <motion.h2
           ref={titleRef}
           className="text-4xl md:text-5xl font-bold text-center mb-4"
+          variants={titleVariants}
+          initial="hidden"
+          animate={isSectionInView ? "visible" : "hidden"}
         >
           My <span className="text-indigo-400">Projects</span>
-        </h2>
+        </motion.h2>
         <p className="text-xl text-indigo-200 text-center mb-16 max-w-3xl mx-auto">
           Here are some of the projects I've worked on, showcasing my skills and
           experience.
@@ -151,9 +141,12 @@ const Projects = () => {
         {/* Projects grid layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
-            <div
+            <motion.div
               key={project.id}
-              ref={(el) => (projectRefs.current[index] = el)}
+              custom={index}
+              variants={cardVariants}
+              initial="hidden"
+              animate={isSectionInView ? "visible" : "hidden"}
               className="group h-full transform transition-all duration-500 hover:-translate-y-2"
             >
               <div className="h-full bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl overflow-hidden border border-gray-700 hover:border-indigo-500/50 transition-all duration-500 flex flex-col shadow-lg hover:shadow-xl hover:shadow-indigo-500/10">
@@ -230,7 +223,7 @@ const Projects = () => {
                   </a>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 

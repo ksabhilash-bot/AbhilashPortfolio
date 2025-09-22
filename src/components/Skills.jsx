@@ -1,63 +1,10 @@
-import React, { useEffect, useRef, forwardRef } from "react";
+import React, { useRef, forwardRef } from "react";
+import { motion } from "framer-motion";
 
 // Enhanced Skills component with forwardRef for proper section referencing
 const Skills = forwardRef(function Skills(props, ref) {
   const titleRef = useRef(null);
-  const cardsRef = useRef([]);
 
-  useEffect(() => {
-    // Check if gsap and ScrollTrigger are available
-    if (typeof window !== "undefined" && window.gsap && window.ScrollTrigger) {
-      const gsap = window.gsap;
-
-      // Title animation
-      gsap.from(titleRef.current, {
-        opacity: 0,
-        y: -50,
-        duration: 1,
-        scrollTrigger: {
-          trigger: ref.current,
-          start: "top 70%",
-          toggleActions: "play none none none",
-        },
-      });
-
-      // Cards animation with improved staggering
-      gsap.from(cardsRef.current, {
-        opacity: 0,
-        y: 50,
-        stagger: 0.15,
-        duration: 0.8,
-        scrollTrigger: {
-          trigger: ref.current,
-          start: "top 80%",
-          toggleActions: "play none none none",
-        },
-      });
-    } else {
-      // Fallback animation using CSS transitions for demo
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.style.opacity = "1";
-              entry.target.style.transform = "translateY(0)";
-            }
-          });
-        },
-        { threshold: 0.1, rootMargin: "0px 0px -100px 0px" }
-      );
-
-      if (titleRef.current) observer.observe(titleRef.current);
-      cardsRef.current.forEach((card) => {
-        if (card) observer.observe(card);
-      });
-
-      return () => observer.disconnect();
-    }
-  }, [ref]);
-
-  // Enhanced skill data with more realistic proficiency levels
   const skills = [
     {
       name: "JavaScript",
@@ -157,7 +104,6 @@ const Skills = forwardRef(function Skills(props, ref) {
     },
   ];
 
-  // Enhanced icon component with better styling
   const getIcon = (iconName, colorClass) => {
     const iconMap = {
       JS: "JS",
@@ -173,7 +119,6 @@ const Skills = forwardRef(function Skills(props, ref) {
       Py: "🐍",
       AI: "🤖",
     };
-
     return (
       <span
         className={`${colorClass} font-bold text-lg flex items-center justify-center`}
@@ -196,6 +141,17 @@ const Skills = forwardRef(function Skills(props, ref) {
     }
   };
 
+  // Framer Motion variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
+  };
+
   return (
     <section
       ref={ref}
@@ -214,10 +170,14 @@ const Skills = forwardRef(function Skills(props, ref) {
       </div>
 
       <div className="max-w-7xl mx-auto text-center relative z-10">
-        <div
+        {/* Title */}
+        <motion.div
           ref={titleRef}
-          className="mb-16 opacity-0 transform translate-y-8 transition-all duration-1000 ease-out"
-          style={{ transitionDelay: "200ms" }}
+          className="mb-16"
+          initial={{ opacity: 0, y: -50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
         >
           <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white via-indigo-200 to-purple-200 bg-clip-text text-transparent">
             Technical <span className="text-indigo-400">Skills</span>
@@ -227,22 +187,24 @@ const Skills = forwardRef(function Skills(props, ref) {
             scalable, performant web applications and deliver exceptional user
             experiences.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        {/* Skills Grid */}
+        <motion.div
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
           {skills.map((skill, index) => (
-            <div
+            <motion.div
               key={index}
-              ref={(el) => (cardsRef.current[index] = el)}
               className="group bg-gradient-to-br from-gray-800 to-gray-900 backdrop-blur-lg rounded-2xl p-8 border border-indigo-500/20 
                          hover:border-indigo-400/50 hover:shadow-2xl hover:shadow-indigo-500/20
-                         transform hover:-translate-y-2 transition-all duration-500 ease-out
-                         opacity-0 translate-y-8 relative"
-              style={{
-                transitionDelay: `${index * 100 + 400}ms`,
-              }}
+                         transform hover:-translate-y-2 transition-all duration-500 ease-out relative"
+              variants={itemVariants}
             >
-              {/* Skill header */}
               <div className="flex items-center justify-between mb-6">
                 <div
                   className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${skill.gradient} 
@@ -260,12 +222,10 @@ const Skills = forwardRef(function Skills(props, ref) {
                 </span>
               </div>
 
-              {/* Skill name */}
               <h3 className="text-xl font-bold text-white mb-4 group-hover:text-indigo-200 transition-colors">
                 {skill.name}
               </h3>
 
-              {/* Progress bar */}
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-300">Proficiency</span>
@@ -275,26 +235,21 @@ const Skills = forwardRef(function Skills(props, ref) {
                 </div>
                 <div className="w-full bg-gray-800/50 rounded-full h-3 overflow-hidden">
                   <div
-                    className={`h-full bg-gradient-to-r ${skill.gradient} rounded-full 
-                               transform transition-all duration-1000 ease-out group-hover:scale-x-105`}
-                    style={{
-                      width: `${skill.proficiency}%`,
-                      transitionDelay: `${index * 50 + 800}ms`,
-                    }}
+                    className={`h-full bg-gradient-to-r ${skill.gradient} rounded-full`}
+                    style={{ width: `${skill.proficiency}%` }}
                   >
                     <div className="w-full h-full bg-gradient-to-r from-white/20 to-transparent opacity-50"></div>
                   </div>
                 </div>
               </div>
 
-              {/* Hover effect overlay */}
               <div
                 className="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-600/10 to-purple-600/10 
                              opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
               ></div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Call to action */}
         <div className="mt-20 text-center">
